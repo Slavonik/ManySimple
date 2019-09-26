@@ -46,7 +46,7 @@ int main()
 		}
 
 		Progress = i;
-		cout << Progress << "       " << dt << "\n";
+		cout << Progress << "       " << dt;
 	}
 
 	now = time(0);
