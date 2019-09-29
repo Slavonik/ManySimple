@@ -7,16 +7,19 @@ using namespace std;
 
 int main()
 {
+	setlocale(LC_ALL, "Russian");
+
 	ofstream fout;
 	fout.open("Log.txt");
 
-	system("color A");
+	system("color B");
 
 	time_t now = time(0);
 	char* dt = ctime(&now);
 
 
 	int R;// R - число до которого искать простые
+	printf("До какого числа искать простые? Введите: ");
 	scanf_s("%d", &R);
 
 	int Progress = 0;
@@ -27,11 +30,12 @@ int main()
 		Mass[i] = true;
 
 
+	system("color C");
 	Progress = 0;
 	now = time(0); 
 	dt = ctime(&now);
-	cout << "Finding simple is start!       " << dt << "\n";
-	//fout << "Начало нахождения простых чисел!       " << dt << "\n";
+	cout << "Начало нахождения простых чисел!       " << dt;
+	fout << "Начало нахождения простых чисел!       " << dt << "\n";
 
 	for (int i = 2; i < (R + 1); i++) {
 		if (Mass[i] == true)
@@ -41,13 +45,26 @@ int main()
 
 	now = time(0);
 	dt = ctime(&now);
-	cout << "Finding simple is over!       " << dt << "\n";
-	//fout << "Нахождение простых чисел окончено!       " << dt << "\n";
+	cout << "Нахождение простых чисел окончено!       " << dt << "\n";
+	fout << "Нахождение простых чисел окончено!       " << dt << "\n";
 
-	//for (int i = 2; i < R + 1; i++)
-	//{
-	//	if (Mass[i] == true) fout << i << "\n";
-	//}
+	system("color A");
+	int t = R / 10;
+	int tt = R / 10;
+	int proc = 0;
+	char pr = '%';
+	printf("Печать в файл: ");
+	printf("0%c--",pr);
+	for (int i = 2; i < R + 1; i++)
+	{
+		if (Mass[i] == true) fout << i << "\n";
+		if (i > tt) {
+			tt += t;
+			proc += 10;
+			printf("%d%c--", proc,pr);
+		}
+	}
+	printf("100%c\n", pr);
 
 	fout.close();
 	return 0;
