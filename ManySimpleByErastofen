@@ -1,0 +1,54 @@
+#define _CRT_SECURE_NO_WARNINGS
+#include <iostream>
+#include <stdio.h>
+#include <fstream> 
+#include <ctime> 
+using namespace std;
+
+int main()
+{
+	ofstream fout;
+	fout.open("Log.txt");
+
+	system("color A");
+
+	time_t now = time(0);
+	char* dt = ctime(&now);
+
+
+	int R;// R - число до которого искать простые
+	scanf_s("%d", &R);
+
+	int Progress = 0;
+
+
+	bool* Mass = new bool[R + 1];
+	for (int i = 0; i < R; i++)
+		Mass[i] = true;
+
+
+	Progress = 0;
+	now = time(0); 
+	dt = ctime(&now);
+	cout << "Finding simple is start!       " << dt << "\n";
+	//fout << "Начало нахождения простых чисел!       " << dt << "\n";
+
+	for (int i = 2; i < (R + 1); i++) {
+		if (Mass[i] == true)
+			for (int j = 2 * i; j < R + 1; j += i)
+				Mass[j] = false;
+	}
+
+	now = time(0);
+	dt = ctime(&now);
+	cout << "Finding simple is over!       " << dt << "\n";
+	//fout << "Нахождение простых чисел окончено!       " << dt << "\n";
+
+	//for (int i = 2; i < R + 1; i++)
+	//{
+	//	if (Mass[i] == true) fout << i << "\n";
+	//}
+
+	fout.close();
+	return 0;
+}
