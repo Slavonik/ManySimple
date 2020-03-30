@@ -3,80 +3,110 @@
 #include <stdio.h>
 #include <fstream> 
 #include <ctime> 
+#include <windows.h>
+#include <string.h>
 using namespace std;
 
 int main()
 {
+	system("mode con cols=225 lines=50");
 	setlocale(LC_ALL, "Russian");
 
 	ofstream fout;
 	fout.open("Log.txt");
 
-	system("color B");
-
 	time_t now = time(0);
 	char* dt = ctime(&now);
 
 
-	int R;// R - число до которого искать простые
-	printf("До какого числа искать простые? Введите: ");
+	int R;// Число до которого искать простые
+	printf("\x1b[1;34mДо какого числа искать простые? Введите: \x1b[1;32m");
 	scanf_s("%d", &R);
 
 	int Progress = 0;
 
-	int t = R / 10;
-	int tt = R / 10;
+	int t = R / 100;
+	int tt = R / 100;
 	int proc = 0;
-	char pr = '%';
-	printf("Подготовка массива: ");
-	printf("0%c--", pr);
+	printf("\x1b[1;31mПодготовка массива: 0%%");
 	bool* Mass = new bool[R + 1];
 	for (int i = 0; i < R; i++) {
 		Mass[i] = true;
 		if (i > tt) {
 			tt += t;
-			proc += 10;
-			printf("%d%c--", proc, pr);
+			proc += 1;
+			printf("\rПодготовка массива: %d%%   ", proc);
 		}
 	}
-	printf("100%c\n\n", pr);
+	printf("\r\x1b[1;34mПодготовка массива: 100%%\n\n");
 
-	system("color C");
-	Progress = 0;
+
 	now = time(0); 
 	dt = ctime(&now);
 	cout << "Начало нахождения простых чисел!       " << dt;
 	fout << "Начало нахождения простых чисел!       " << dt << "\n";
 
+	tt = R / 100;
+	proc = 0;
+	printf("\x1b[1;31mПоиск простых чисел: 0%%");
 	for (int i = 2; i < (R + 1); i++) {
 		if (Mass[i] == true)
 			for (int j = 2 * i; j < R + 1; j += i)
 				Mass[j] = false;
+		
+		if (i > tt) {
+			tt += t;
+			proc += 1;
+			printf("\rПоиск простых чисел: %d%%   ", proc);
+		}
 	}
+	printf("\r\x1b[1;34mПоиск простых чисел: 100%%\n");
 
 	now = time(0);
 	dt = ctime(&now);
 	cout << "Нахождение простых чисел окончено!       " << dt << "\n";
 	fout << "Нахождение простых чисел окончено!       " << dt << "\n";
 
-	system("color A");
-	t = R / 10;
-	tt = R / 10;
+
+	tt = R / 100;
 	proc = 0;
-	pr = '%';
-	printf("Печать в файл: ");
-	printf("0%c--",pr);
+	printf("\x1b[1;31mПечать в файл: 0%%");
 	for (int i = 2; i < R + 1; i++)
 	{
 		if (Mass[i] == true) fout << i << "\n";
 		if (i > tt) {
 			tt += t;
-			proc += 10;
-			printf("%d%c--", proc,pr);
+			proc += 1;
+			printf("\rПечать в файл: %d%%  ", proc);
 		}
 	}
-	printf("100%c\n", pr);
+	printf("\r\x1b[1;34mПечать в файл: 100%%\n");
+	printf("Готово!!!\n\n");
 
 	fout.close();
+	
+	printf("\x1b[1;35m");
+	printf("                                                                                                                                                                                   dddddddd                                      \n");
+	printf("                          /:::::/   CCCCCCCCCCCCC                                                                 SSSSSSSSSSSSSSS      tttt                                        d::::::d  iiii                                \n");
+	printf("      <<<<<<<            /:::::/ CCC::::::::::::C                                                               SS:::::::::::::::S  ttt:::t                                        d::::::d i::::i                  >>>>>>>      \n");
+	printf("     <:::::<            /:::::/CC:::::::::::::::C                                                              S:::::SSSSSS::::::S  t:::::t                                        d::::::d  iiii                    >:::::>     \n");
+	printf("    <:::::<            /:::::/C:::::CCCCCCCC::::C                                                              S:::::S     SSSSSSS  t:::::t                                        d:::::d                            >:::::>    \n");
+	printf("   <:::::<            /:::::/C:::::C       CCCCCC   ooooooooooo   rrrrr   rrrrrrrrr       eeeeeeeeeeee         S:::::S        ttttttt:::::ttttttt    uuuuuu    uuuuuu      ddddddddd:::::d iiiiiii    ooooooooooo      >:::::>   \n");
+	printf("  <:::::<            /:::::/C:::::C               oo:::::::::::oo r::::rrr:::::::::r    ee::::::::::::ee       S:::::S        t:::::::::::::::::t    u::::u    u::::u    dd::::::::::::::d i:::::i  oo:::::::::::oo     >:::::>  \n");
+	printf(" <:::::<            /:::::/ C:::::C              o:::::::::::::::or:::::::::::::::::r  e::::::eeeee:::::ee      S::::SSSS     t:::::::::::::::::t    u::::u    u::::u   d::::::::::::::::d  i::::i o:::::::::::::::o     >:::::> \n");
+	printf("<:::::<            /:::::/  C:::::C              o:::::ooooo:::::orr::::::rrrrr::::::re::::::e     e:::::e       SS::::::SSSSStttttt:::::::tttttt    u::::u    u::::u  d:::::::ddddd:::::d  i::::i o:::::ooooo:::::o      >:::::>\n");
+	printf(" <:::::<          /:::::/   C:::::C              o::::o     o::::o r:::::r     r:::::re:::::::eeeee::::::e         SSS::::::::SS    t:::::t          u::::u    u::::u  d::::::d    d:::::d  i::::i o::::o     o::::o     >:::::> \n");
+	printf("  <:::::<        /:::::/    C:::::C              o::::o     o::::o r:::::r     rrrrrrre:::::::::::::::::e             SSSSSS::::S   t:::::t          u::::u    u::::u  d:::::d     d:::::d  i::::i o::::o     o::::o    >:::::>  \n");
+	printf("   <:::::<      /:::::/     C:::::C              o::::o     o::::o r:::::r            e::::::eeeeeeeeeee                   S:::::S  t:::::t          u::::u    u::::u  d:::::d     d:::::d  i::::i o::::o     o::::o   >:::::>   \n");
+	printf("    <:::::<    /:::::/       C:::::C       CCCCCCo::::o     o::::o r:::::r            e:::::::e                            S:::::S  t:::::t    ttttttu:::::uuuu:::::u  d:::::d     d:::::d  i::::i o::::o     o::::o  >:::::>    \n");
+	printf("     <:::::<  /:::::/         C:::::CCCCCCCC::::Co:::::ooooo:::::o r:::::r            e::::::::e               SSSSSSS     S:::::S  t::::::tttt:::::tu:::::::::::::::uud::::::ddddd::::::ddi::::::io:::::ooooo:::::o >:::::>     \n");
+	printf("      <<<<<<</:::::/           CC:::::::::::::::Co:::::::::::::::o r:::::r             e::::::::eeeeeeee       S::::::SSSSSS:::::S  tt::::::::::::::t u:::::::::::::::u d:::::::::::::::::di::::::io:::::::::::::::o>>>>>>>      \n");
+	printf("            /:::::/              CCC::::::::::::C oo:::::::::::oo  r:::::r              ee:::::::::::::e       S:::::::::::::::SS     tt:::::::::::tt  uu::::::::uu:::u  d:::::::::ddd::::di::::::i oo:::::::::::oo              \n");
+	printf("           /:::::/                  CCCCCCCCCCCCC   ooooooooooo    rrrrrrr                eeeeeeeeeeeeee        SSSSSSSSSSSSSSS         ttttttttttt      uuuuuuuu  uuuu   ddddddddd   dddddiiiiiiii   ooooooooooo                \n");
+	printf("\n\n");
+	printf("\x1b[1;30m");
+	
+	delete []Mass;
+
 	return 0;
 }
